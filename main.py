@@ -216,6 +216,10 @@ model = create_model(ModelType.MOBILE_NET,
                      learning_rate=0.01)
 train_and_test(model)
 
+# Accurancy didn't improve, it descreased by 0.01
+
+# Training runtime duration is longer now because the steps are smaller to find the optimal minimum value of the loss function
+
 print("********************************\n"
       "************ 3.C ***************\n"
       "********************************")
@@ -223,12 +227,20 @@ model = create_model(ModelType.MOBILE_NET,
                      use_dropout_layer=True, dropout_rate=0.5)
 train_and_test(model)
 
+# Accurancy improved after adding an additional network layer
+
+# Training runtime duration increaed because we need to calculate and update new weights
+
 print("********************************\n"
       "************ 3.D ***************\n"
       "********************************")
 model = create_model(ModelType.MOBILE_NET,
                      use_random_flip=True)
 train_and_test(model)
+
+# Accurancy - Accurancy decreased by 0.05 - I expected the accurancy to be higher
+
+# Training runtime duration increased, New images were added, which means the dataset size increased, leading to longer runtime for each epoch.
 
 
 print("********************************\n"
@@ -241,4 +253,6 @@ train_and_test(model)
 avg_latency = calculate_avg_latency(model, test_images)
 print(f'Average latency for test images: {avg_latency:.2f}')
 
+# Accurancy - the situation get worsen, from 0.77 to 0.1
 
+# Training runtime duration increase
