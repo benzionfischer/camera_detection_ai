@@ -139,6 +139,14 @@ def plot_train_vs_val_accuracy(history):
     # ===========
     return
 
+def calculate_avg_latency(model, images):
+    start_time = time.time()
+    predictions = model.predict(images)
+    end_time = time.time()
+    latency = (end_time - start_time) / len(images)
+    return latency
+
+
 def train_and_test(model):
     # Do the actual training
     start_time = time.time()
@@ -219,3 +227,9 @@ print("********************************\n"
 model = create_model(ModelType.RESNET18,
                      use_random_flip=True)
 train_and_test(model)
+
+
+avg_latency = calculate_avg_latency(model, test_images)
+print(f'Average latency for test images: {avg_latency:.2f}')
+
+
