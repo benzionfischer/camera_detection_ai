@@ -228,8 +228,7 @@ train_and_test(model)
 print("********************************\n"
       "************ 3.E ***************\n"
       "********************************")
-model = create_model(ModelType.RESNET18,
-                     use_random_flip=True)
+model = create_model(ModelType.RESNET18)
 train_and_test(model)
 
 
