@@ -202,6 +202,12 @@ model = create_model(ModelType.MOBILE_NET,
                      train_base_model=True)
 train_and_test(model)
 
+# Accurancy: Decreased - Because MobileNet loaded with the weights of imagenet, which consisted from a model that trained from 14 Million images in the dataset,
+#                           But after the drop of the weights we should update the weights,
+#                           In this situation out dataset is cifar10 which consisted from 60K images (much less)
+
+# Training time increased dramatically, (from 17s to 41s) because the base model should be updated too
+
 
 print("********************************\n"
       "************ 3.B ***************\n"
