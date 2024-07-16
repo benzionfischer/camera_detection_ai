@@ -1,9 +1,13 @@
 import os
 import random
 import tensorflow as tf
+tf.keras.backend.clear_session()
+
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+
+from classification_models.keras import Classifiers
 from keras.src.layers import RandomFlip
 from tensorflow.keras import layers, models, datasets
 from tensorflow.keras.applications import MobileNet
@@ -11,6 +15,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 from keras.layers.experimental.preprocessing import Resizing
 from tensorflow.keras.optimizers import Adam
+from model_type import ModelType
 
 
 def load_dataset(validation_split=0.2, dec_factor=10):
@@ -40,15 +45,27 @@ def load_dataset(validation_split=0.2, dec_factor=10):
     return train_images, train_labels, val_images, val_labels, test_images, test_labels
 
 
-def create_model(learning_rate=None,
+def create_model(base_model :ModelType, learning_rate=None,
                  pretrain_model_weights_freezed=True,
                  use_dropout_layer=False,
                  dropout_rate=0.5,
                  use_random_flip=False):
     image_size = 128
-    base_model = MobileNet(input_shape=(image_size, image_size, 3),
-                           include_top=False,
-                           weights='imagenet')
+
+    if base_model == ModelType.MOBILE_NET:
+        base_model = MobileNet(input_shape=(image_size, image_size, 3),
+                               include_top=False,
+                               weights='imagenet')
+    elif base_model == ModelType.RESNET18:
+        ResNet18, preprocess_input = Classifiers.get('resnet18')
+        base_model = ResNet18(input_shape=(image_size, image_size, 3),
+                         include_top=False,
+                         weights='imagenet')
+    else:
+        raise ValueError("Unknown ModelType")
+
+
+
     base_model.trainable = not pretrain_model_weights_freezed
 
     model = models.Sequential()
@@ -122,7 +139,7 @@ def plot_train_vs_val_accuracy(history):
     # ===========
     return
 
-def run(model):
+def train_and_test(model):
     # Do the actual training
     start_time = time.time()
 
@@ -161,8 +178,8 @@ print("********************************\n"
 # Do you think that increasing the dataset will improve the results? Explain
 # yes think so, because in this way the model will learn better the patterns
 
-model = create_model()
-run(model)
+model = create_model(ModelType.MOBILE_NET)
+train_and_test(model)
 
 
 
@@ -170,23 +187,35 @@ run(model)
 print("********************************\n"
       "************ 3.A ***************\n"
       "********************************")
-model = create_model(pretrain_model_weights_freezed=False)
-run(model)
+model = create_model(ModelType.MOBILE_NET,
+                     pretrain_model_weights_freezed=False)
+train_and_test(model)
 
 print("********************************\n"
       "************ 3.B ***************\n"
       "********************************")
-model = create_model(learning_rate=0.01)
-run(model)
+model = create_model(ModelType.MOBILE_NET,
+                     learning_rate=0.01)
+train_and_test(model)
 
 print("********************************\n"
       "************ 3.C ***************\n"
       "********************************")
-model = create_model(use_dropout_layer=True, dropout_rate=0.5)
-run(model)
+model = create_model(ModelType.MOBILE_NET,
+                     use_dropout_layer=True, dropout_rate=0.5)
+train_and_test(model)
 
 print("********************************\n"
       "************ 3.D ***************\n"
       "********************************")
-model = create_model(use_random_flip=True)
-run(model)
+model = create_model(ModelType.MOBILE_NET,
+                     use_random_flip=True)
+train_and_test(model)
+
+
+print("********************************\n"
+      "************ 3.E ***************\n"
+      "********************************")
+model = create_model(ModelType.RESNET18,
+                     use_random_flip=True)
+train_and_test(model)
