@@ -46,7 +46,7 @@ def load_dataset(validation_split=0.2, dec_factor=10):
 
 
 def create_model(base_model :ModelType, learning_rate=None,
-                 pretrain_model_weights_freezed=True,
+                 train_base_model=False,
                  use_dropout_layer=False,
                  dropout_rate=0.5,
                  use_random_flip=False):
@@ -65,8 +65,11 @@ def create_model(base_model :ModelType, learning_rate=None,
         raise ValueError("Unknown ModelType")
 
 
-
-    base_model.trainable = not pretrain_model_weights_freezed
+    # When you set base_model.trainable = False, (out default)
+    # you prevent the weights in the layers of the pre-trained base_model from being updated during the training of your new model.
+    # Instead, these weights are kept fixed,
+    # and only the weights in the additional layers you add on top of the base_model are trained.
+    base_model.trainable = train_base_model
 
     model = models.Sequential()
 
@@ -196,8 +199,9 @@ print("********************************\n"
       "************ 3.A ***************\n"
       "********************************")
 model = create_model(ModelType.MOBILE_NET,
-                     pretrain_model_weights_freezed=False)
+                     train_base_model=True)
 train_and_test(model)
+
 
 print("********************************\n"
       "************ 3.B ***************\n"
