@@ -13,9 +13,14 @@ train_dir = '/Users/benzionfisher/PycharmProjects/coin_recognition/train'
 val_dir = '/Users/benzionfisher/PycharmProjects/coin_recognition/val'
 test_dir = '/Users/benzionfisher/PycharmProjects/coin_recognition/test'
 
-shutil.rmtree(train_dir)
-shutil.rmtree(val_dir)
-shutil.rmtree(test_dir)
+if os.path.isdir(train_dir):
+    shutil.rmtree(train_dir)
+
+if os.path.isdir(val_dir):
+    shutil.rmtree(val_dir)
+
+if os.path.isdir(test_dir):
+    shutil.rmtree(test_dir)
 
 
 # Create directories if they don't exist
@@ -73,7 +78,7 @@ cwd = os.getcwd()
 
 # Load the pre-trained YOLOv8 model
 
-is_to_train = True
+is_to_train = False
 if is_to_train:
     model = YOLO('yolov8n.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
 
@@ -175,9 +180,29 @@ def evaluate_accuracy(ground_truth, predictions):
         y_true.extend([y_true_sum])
         y_pred.extend([pred_sum])
 
-    accuracy = accuracy_score(y_true, y_pred)
+    # gt_array = np.array(y_true)
+    # pred_array = np.array(y_pred)
 
-    return accuracy
+
+    accurancies = []
+    for i, y in enumerate(y_true):
+        if y == 0:
+            accurancies.extend([0])
+        else:
+            accurency = 1 - abs(y - y_pred[i])/y
+            accurancies.extend([accurency])
+
+
+    # # Calculate the absolute difference
+    # abs_diff = np.abs(gt_array - pred_array)
+    #
+    # # Calculate the formula value for each pair
+    # formula_values = 1 - (abs_diff / gt_array)
+    #
+    # # Compute the average of the formula values
+    average_value = np.mean(np.array(accurancies))
+
+    return average_value
 
 # Extract predictions
 predictions = extract_predictions(results)
