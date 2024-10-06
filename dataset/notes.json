@@ -2,19 +2,7 @@
   "categories": [
     {
       "id": 0,
-      "name": "1 Shekel Coin"
-    },
-    {
-      "id": 1,
-      "name": "10 Shekel Coin"
-    },
-    {
-      "id": 2,
-      "name": "2 Shekel Coin"
-    },
-    {
-      "id": 3,
-      "name": "5 Shekel Coin"
+      "name": "Camera"
     }
   ],
   "info": {
