@@ -1,10 +1,7 @@
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from ultralytics import YOLO
 import os
 import shutil
 import random
-import json
-import utils.image_format_converter
 from utils import image_format_converter
 
 # Paths
