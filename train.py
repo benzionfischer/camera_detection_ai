@@ -3,16 +3,15 @@ import os
 import shutil
 import random
 from utils import image_format_converter
-import tensorflow as tf
+import torch
 
-devices = tf.config.list_physical_devices()
-print("\nDevices: ", devices)
-
-gpus = tf.config.list_physical_devices('GPU')
-if gpus:
-  details = tf.config.experimental.get_device_details(gpus[0])
-  print("GPU details: ", details)
-
+# Check if MPS (Metal) is available
+if torch.backends.mps.is_available():
+    device = torch.device("mps")  # Use MPS (GPU) on macOS
+    print("MPS is available and will be used for computation.")
+else:
+    device = torch.device("cpu")  # Fallback to CPU
+    print("MPS is not available, using CPU.")
 
 
 # Paths
@@ -99,6 +98,9 @@ cwd = os.getcwd()
 is_to_train = True
 if is_to_train:
     model = YOLO('yolov8n_custom.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
+
+    # use GPU
+    model.to(device)
 
     model.train(
         data= cwd + '/custom_data.yaml',
