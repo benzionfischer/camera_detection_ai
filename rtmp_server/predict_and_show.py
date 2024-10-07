@@ -1,14 +1,25 @@
+import cv2
+from ultralytics import YOLO
+import torch
 import time
 
-import cv2
-import torch
-from ultralytics import YOLO
 
 # RTMP URL
 rtmp_url = 'rtmp://0.0.0.0:1935/live'
 
 # Load the YOLOv8 model (make sure you have the correct path to your fine-tuned model)
-model = YOLO('../yolov8n_custom.pt')
+
+# Check if MPS (Metal) is available
+if torch.backends.mps.is_available():
+    device = torch.device("mps")  # Use MPS (GPU) on macOS
+    print("MPS is available and will be used for computation.")
+else:
+    device = torch.device("cpu")  # Fallback to CPU
+    print("MPS is not available, using CPU.")
+
+model = YOLO('../yolov8n.pt')
+model.to(device)
+
 
 # Open the video stream
 cap = cv2.VideoCapture(rtmp_url)
@@ -20,9 +31,14 @@ if not cap.isOpened():
 
 # Read and display frames from the stream
 
+counter = 0
 while True:
     # Capture frame-by-frame
     ret, frame = cap.read()
+
+    counter += 1
+    if counter % 5 != 0:
+        continue
 
     # If the frame was read correctly, process it
     if ret:
@@ -33,7 +49,8 @@ while True:
         for result in results:
             for box in result.boxes:
                 # Extract bounding box coordinates and class predictions
-                x1, y1, x2, y2 = box.xyxy[0].int()  # Bounding box (x1, y1, x2, y2)
+                xyxy = box.xyxy[0].cpu().numpy().astype(int)  # Convert to numpy array and then to integers
+                x1, y1, x2, y2 = xyxy  # Bounding box (x1, y1, x2, y2)
                 conf = box.conf[0]  # Confidence score
                 cls = int(box.cls[0])  # Class index
 
@@ -53,7 +70,6 @@ while True:
     # Break the loop on 'q' key press
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
 
 # Release the video capture object and close all OpenCV windows
 cap.release()
