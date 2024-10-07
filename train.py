@@ -3,6 +3,17 @@ import os
 import shutil
 import random
 from utils import image_format_converter
+import tensorflow as tf
+
+devices = tf.config.list_physical_devices()
+print("\nDevices: ", devices)
+
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+  details = tf.config.experimental.get_device_details(gpus[0])
+  print("GPU details: ", details)
+
+
 
 # Paths
 source_images_dir = '/Users/benzionfisher/PycharmProjects/camera_detection/dataset/images'
@@ -85,14 +96,14 @@ cwd = os.getcwd()
 
 # Load the pre-trained YOLOv8 model
 
-is_to_train = False
+is_to_train = True
 if is_to_train:
-    model = YOLO('yolov8n.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
+    model = YOLO('yolov8n_custom.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
 
     model.train(
         data= cwd + '/custom_data.yaml',
         imgsz=640,
-        epochs=20,
+        epochs=40,
         batch=8,
         name='yolov8n_custom')
 

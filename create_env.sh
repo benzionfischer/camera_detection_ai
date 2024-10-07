@@ -11,3 +11,11 @@ conda activate cctv_detection
 # step 2
 # create a new project in intellij
 # set conda as default env with the detials from 'step 1'
+
+
+# venv & dependencies
+python3.8 -m venv venv
+pip install ultralytics
+pip install tensorflow
+pip install tensorflow-macos
+pip install tensorflow-metal
