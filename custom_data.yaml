@@ -4,8 +4,6 @@ train: '/Users/benzionfisher/PycharmProjects/camera_detection/train/images'
 # Path to the validation images
 val: '/Users/benzionfisher/PycharmProjects/camera_detection/val/images'
 
-test: '/Users/benzionfisher/PycharmProjects/camera_detection/test/images'
-
 # Number of classes
 nc: 81
 
