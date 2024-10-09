@@ -13,24 +13,19 @@ else:
 cwd = os.getcwd()
 
 # Load the pre-trained YOLOv8 model
+model = YOLO('yolov8n.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
 
-is_to_train = True
-if is_to_train:
-    model = YOLO('yolov8n.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
+# use GPU
+# model.to(device)
 
-    # use GPU
-    # model.to(device)
-
-    model.train(
+model.train(
         data= cwd + '/custom_data.yaml',
         imgsz=640,
         epochs=150,
         batch=8,
         name='yolov8n_custom')
 
-    model.save('yolov8n_custom.pt')
-else:
-    model = YOLO('yolov8n_custom.pt')
+model.save('yolov8n_custom.pt')
 
 
 # Evaluate the model on the test set
