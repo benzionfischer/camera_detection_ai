@@ -4,7 +4,7 @@ from PIL import Image
 def jpg_to_png(dir):
     # Iterate over the images and convert them
     for filename in os.listdir(dir):
-        if filename.endswith('.jpg') or filename.endswith('.jpeg'):  # Change from .jpg to .png, for example
+        if filename.endswith('.webp') or filename.endswith('.jpg') or filename.endswith('.jpeg'):  # Change from .jpg to .png, for example
             img_path = os.path.join(dir, filename)
             img = Image.open(img_path)
 
