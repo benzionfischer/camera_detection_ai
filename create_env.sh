@@ -19,3 +19,6 @@ pip install ultralytics
 pip install tensorflow
 pip install tensorflow-macos
 pip install tensorflow-metal
+
+# for each problematic .png file use
+mogrify *.png
