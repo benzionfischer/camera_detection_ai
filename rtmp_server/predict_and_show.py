@@ -4,6 +4,10 @@ import torch
 import time
 
 
+# roubleshoot incoming traffic to mac
+# sudo tcpdump -i any -n port 1935
+
+
 # RTMP URL
 rtmp_url = 'rtmp://0.0.0.0:1935/live'
 
