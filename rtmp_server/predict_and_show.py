@@ -17,7 +17,7 @@ else:
     device = torch.device("cpu")  # Fallback to CPU
     print("MPS is not available, using CPU.")
 
-model = YOLO('../yolov8n.pt')
+model = YOLO('../yolov8n_custom_200_epoches_CPU_510_images.pt')
 model.to(device)
 
 
@@ -37,7 +37,7 @@ while True:
     ret, frame = cap.read()
 
     counter += 1
-    if counter % 5 != 0:
+    if counter % 4 != 0:
         continue
 
     # If the frame was read correctly, process it
