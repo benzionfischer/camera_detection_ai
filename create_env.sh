@@ -22,3 +22,9 @@ pip install tensorflow-metal
 
 # for each problematic .png file use
 mogrify *.png
+
+
+# for raspberry pi (from scrach)
+python -m venv venv
+pip install opencv-python
+pip install ultralytics
