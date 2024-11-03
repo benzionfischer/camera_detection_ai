@@ -25,7 +25,7 @@ model.train(
         batch=16,
         name='yolov8n_custom')
 
-model.save('yolov8n_custom_200_epoches_CPU_510_images.pt')
+model.save('../camera_detection_inference/yolov8n_custom_200_epoches_CPU_510_images.pt')
 
 
 # Evaluate the model on the test set
