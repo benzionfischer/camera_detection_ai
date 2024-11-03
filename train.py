@@ -21,11 +21,11 @@ model = YOLO('yolov8n.pt')  # You can use different versions, like yolov8s.pt, y
 model.train(
         data= cwd + '/custom_data.yaml',
         imgsz=640,
-        epochs=150,
-        batch=8,
+        epochs=200,
+        batch=16,
         name='yolov8n_custom')
 
-model.save('yolov8n_custom.pt')
+model.save('yolov8n_custom_200_epoches_CPU_510_images.pt')
 
 
 # Evaluate the model on the test set
