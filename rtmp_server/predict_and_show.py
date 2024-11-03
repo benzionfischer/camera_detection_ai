@@ -21,7 +21,7 @@ else:
     device = torch.device("cpu")  # Fallback to CPU
     print("MPS is not available, using CPU.")
 
-model = YOLO('../yolov8n_custom_200_epoches_CPU_510_images.pt')
+model = YOLO('../../camera_detection_inference/yolov8n_custom_200_epoches_CPU_510_images.pt')
 model.to(device)
 
 
