@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 # Load your model
-model = YOLO("/Users/benzionfisher/PycharmProjects/camera_detection/yolov8n_custom.pt")
+model = YOLO("/Users/benzionfisher/PycharmProjects/camera_detection/yolov8n_custom_200_epoches_CPU_510_images.pt")
 
 # Run inference
 test_images_path = '/Users/benzionfisher/PycharmProjects/camera_detection/test/images'
