@@ -13,23 +13,23 @@ else:
 cwd = os.getcwd()
 
 # Load the pre-trained YOLOv8 model
-model = YOLO('yolov8n.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
+model = YOLO('yolo11n.pt')  # You can use different versions, like yolov8s.pt, yolov8m.pt, yolov8l.pt, etc.
 
 # use GPU
 # model.to(device)
 
 model.train(
         data= cwd + '/custom_data.yaml',
-        imgsz=640,
+        imgsz=320,
         epochs=200,
         batch=16,
         name='yolov8n_custom')
 
-model.save('../camera_detection_inference/yolov8n_custom_200_epoches_CPU_510_images.pt')
+model.save('../camera_detection_inference/yolo11n_custom_200_epoches_CPU_510_images_imgsz_320.pt')
 
 
 # Evaluate the model on the test set
-metrics = model.val(data=cwd + '/test_data.yaml', imgsz=640)
+metrics = model.val(data=cwd + '/test_data.yaml', imgsz=320)
 
 # Print out the metrics
 print(f"Precision: {metrics.results_dict['metrics/precision(B)']:.2f}")
